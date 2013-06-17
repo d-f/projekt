@@ -2,7 +2,7 @@ import SimpleOpenNI.*;
 SimpleOpenNI  context;
 
 float breite = 675, hoehe = 605;
-boolean erste_bewegung = true, zweite_bewegung = false, dritte_bewegung = false, vierte_bewegung = false; explosion = false;
+boolean erste_bewegung = true, zweite_bewegung = false, dritte_bewegung = false, vierte_bewegung = false;
 
 float min_dist = 0;   // 500 ist ca 0,5m
 float max_dist = 2000;  //3600 entspricht ca. 4m.
@@ -22,12 +22,15 @@ void setup () {
 void draw () {
   PVector[] pv = context.depthMapRealWorld();
   float tiefe = max_dist - pv[176960].z;
+  if (tiefe < 0){
+    tiefe = 0;
+  }
   println(tiefe);
   context.update();
   background(0);
   
   //Dreieck
-  stroke(100, 100, random(tiefe)%255);
+  stroke(100, 100, tiefe/10);
   line(0, hoehe, breite/2, 0);
   line(breite/2, 0, breite, hoehe);
   line(breite, hoehe, 0, hoehe);
@@ -38,7 +41,6 @@ void draw () {
     zweite_bewegung = false;
     dritte_bewegung = false;
     vierte_bewegung = false;
-    explosion = false;
   }
 
   if (erste_bewegung == true){
@@ -276,6 +278,10 @@ void male_zwei(){
     line(breite*3/8, hoehe/4, breite*5/8, hoehe/4);
     line(breite*1/8, hoehe*3/4, breite/4, hoehe);
     line(breite*7/8, hoehe*3/4, breite*3/4, hoehe);
+    
+    line(breite*3/8, hoehe*1/4, breite*3/4, hoehe);
+    line(breite*5/8, hoehe*1/4, breite*1/4, hoehe);
+    line(breite*1/8, hoehe*3/4, breite*7/8, hoehe*3/4);
 }
 
 void male_drei(){
